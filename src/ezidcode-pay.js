@@ -27,13 +27,13 @@ class EzidcodePayJS {
                 .then(data => {
                     if (data.status === 'success') {
                         if (data.payment_status === 'paid' || data.payment_status === 'completed') {
-                            clearInterval(polling); // Hentikan pengecekan jika sudah lunas
+                            clearInterval(polling); // Stop polling if payment is completed
                             if (typeof onSuccess === 'function') onSuccess(data);
                         } else if (data.payment_status === 'failed' || data.payment_status === 'expired') {
-                            clearInterval(polling); // Hentikan pengecekan jika gagal
+                            clearInterval(polling); // Stop polling if payment fails
                             if (typeof onFailed === 'function') onFailed(data);
                         }
-                        // Jika 'pending', biarkan interval terus berjalan
+                        // If 'pending', let the interval continue
                     }
                 })
                 .catch(error => console.error('Ezidcode Pay Error:', error));
