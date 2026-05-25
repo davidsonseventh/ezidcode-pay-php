@@ -7,8 +7,8 @@ class EzidcodePay {
     private $base_url = 'https://pay.ezidcode.com';
 
     /**
-     * Inisialisasi Ezidcode Pay SDK
-     * * @param string $public_key Public Key dari Dashboard Ezidcode Pay
+     * Initialize Ezidcode Pay SDK
+     * @param string $public_key Public Key from Ezidcode Pay Dashboard
      */
     public function __construct($public_key) {
         $this->public_key = $public_key;
