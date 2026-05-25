@@ -12,9 +12,16 @@ class EzidcodePayJS {
      * @param {number} interval Interval pengecekan dalam milidetik (Default: 10000ms / 10 detik)
      */
     static listen(txId, onSuccess, onFailed, interval = 10000) {
-        const checkEndpoint = `https://pay.ezidcode.com/api/check-status.php?tx_id=${txId}`;
-        
-        const polling = setInterval(() => {
+    // Tambahkan fungsi encodeURIComponent
+    const checkEndpoint = `https://pay.ezidcode.com/api/check-status.php?tx_id=${encodeURIComponent(txId)}`;
+    
+    const polling = setInterval(() => {
+        // ... (isi blok fetch di tengah tetap dibiarkan sama) ...
+    }, interval);
+    
+    // Tambahkan return agar developer bisa mengeksekusi clearInterval(polling)
+    return polling; 
+}
             fetch(checkEndpoint)
                 .then(response => response.json())
                 .then(data => {
