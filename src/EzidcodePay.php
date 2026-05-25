@@ -15,11 +15,11 @@ class EzidcodePay {
     }
 
     /**
-     * Membuat tagihan kripto baru
-     * * @param string $order_id ID Pesanan dari sistem/database Anda
-     * @param float $amount Jumlah tagihan (Fiat)
-     * @param string $currency Mata uang fiat (Contoh: 'USD', 'IDR')
-     * @return array Response JSON dari API Ezidcode Pay
+     * Create a new crypto invoice
+     * @param string $order_id Order ID from your system/database
+     * @param float $amount Invoice amount (Fiat)
+     * @param string $currency Fiat currency (Example: 'USD', 'IDR')
+     * @return array JSON Response from Ezidcode Pay API
      */
     public function createInvoice($order_id, $amount, $currency = 'USD') {
         $endpoint = $this->base_url . '/api/create-invoice.php';
@@ -35,9 +35,9 @@ class EzidcodePay {
     }
 
     /**
-     * Mengecek status transaksi
-     * * @param string $tx_id Transaction ID dari Ezidcode Pay
-     * @return array Response JSON status pembayaran
+     * Check transaction status
+     * @param string $tx_id Transaction ID from Ezidcode Pay
+     * @return array JSON Response of payment status
      */
     public function checkStatus($tx_id) {
         $endpoint = $this->base_url . '/api/check-status.php?tx_id=' . urlencode($tx_id);
@@ -45,7 +45,7 @@ class EzidcodePay {
     }
 
     /**
-     * Eksekutor cURL Internal
+     * Internal cURL Executor
      */
     private function sendRequest($url, $method = 'GET', $payload = null) {
         $ch = curl_init($url);
