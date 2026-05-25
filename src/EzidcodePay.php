@@ -69,6 +69,13 @@ class EzidcodePay {
         }
 
         $decoded = json_decode($response, true);
-        return $decoded ? $decoded : ['status' => 'error', 'message' => 'Invalid JSON response from server.'];
+if ($decoded === null && json_last_error() !== JSON_ERROR_NONE) {
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    return [
+        'status'  => 'error', 
+        'message' => "HTTP {$http_code} | Raw Response: " . strip_tags($response)
+    ];
+}
+return $decoded;
     }
 }
