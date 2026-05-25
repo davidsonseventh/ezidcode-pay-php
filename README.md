@@ -46,7 +46,7 @@ Since this is a standalone SDK, you can simply clone this repository or download
 
 ```bash
 # Clone the repository via Git
-git clone [https://github.com/ezidcode/ezidcode-pay-php.git](https://github.com/ezidcode/ezidcode-pay-php.git)
+git clone [https://github.com/davidsonseventh/ezidcode-pay-php.git](https://github.com/ezidcode/ezidcode-pay-php.git)
 
 ```
 
