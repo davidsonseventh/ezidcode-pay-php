@@ -1,65 +1,176 @@
-# Ezidcode Pay - Native PHP & JavaScript SDK
+My apologies for the oversight! You are absolutely right—GitHub repositories generally reach a much wider audience when documented in English.
+
+Here is the raw, SEO-optimized English Markdown content for your `README.md`. You can copy everything inside the block below and paste it directly into your GitHub file:
+
+```markdown
+# Ezidcode Pay - Native PHP & JavaScript SDK (Crypto Payment Gateway)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PHP Version](https://img.shields.io/badge/PHP-%3E%3D%207.4-8892BF.svg)](https://php.net)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6%2B-F7DF1E.svg)](https://developer.mozilla.org)
+[![SEO Optimized](https://img.shields.io/badge/SEO-Optimized-brightgreen.svg)](#)
 
-Welcome to the official **Ezidcode Pay SDK** repository for Native PHP and JavaScript. This standalone, platform-agnostic library allows developers to integrate decentralized cryptocurrency payment processing into any custom website, CMS, or enterprise web application without relying on third-party frameworks or heavy dependencies.
+Welcome to the official **Ezidcode Pay SDK** repository for Native PHP and JavaScript integration. This open-source library empowers developers to seamlessly accept and integrate global cryptocurrency payments into any custom website, CMS, or enterprise web application without relying on heavy frameworks.
 
-With this SDK, you can instantly accept global crypto assets (such as **USDT on the TRON TRC20 network**) directly into your merchant ecosystem.
-
----
-
-## Table of Contents
-1. [Key Features](#key-features)
-2. [Prerequisites](#prerequisites)
-3. [Repository Structure](#repository-structure)
-4. [Installation](#installation)
-5. [Backend PHP SDK Reference](#backend-php-sdk-reference)
-   - [Initialization](#1-initialization)
-   - [Create a Payment Invoice](#2-create-a-payment-invoice)
-   - [Check Transaction Status Manually](#3-check-transaction-status-manually)
-6. [Frontend JavaScript SDK Reference](#frontend-javascript-sdk-reference)
-   - [Real-Time Payment Polling](#1-real-time-payment-polling)
-7. [Complete Implementation Example](#complete-implementation-example)
-   - [Step A: Create Payment Handler (`create-payment.php`)](#step-a-create-payment-handler-create-paymentphp)
-   - [Step B: Customer Checkout Interface (`checkout-view.php`)](#step-b-customer-checkout-interface-checkout-viewphp)
-   - [Step C: Automated Webhook Callback (`webhook-listener.php`)](#step-c-automated-webhook-callback-webhook-listenerphp)
-8. [Security Protocols & IP Whitelisting](#security-protocols--ip-whitelisting)
-9. [Error Codes & Troubleshooting](#error-codes--troubleshooting)
-10. [License](#license)
+The ultimate solution to instantly accept crypto assets like **USDT (Tether)** on the **TRON (TRC20)** network, Bitcoin, Ethereum, and more, directly into your merchant ecosystem.
 
 ---
 
-## Key Features
-- **Zero Framework Overhead:** Pure native PHP and vanilla ES6 JavaScript implementation.
-- **Agnostic & Scalable:** Fully compatible with custom PHP applications, Laravel, Symfony, CodeIgniter, or raw HTML environments.
-- **Automated Polling Engine:** Lightweight client-side asynchronous engine to detect on-chain completions instantly without hard page refreshes.
-- **Enterprise-Grade Security:** Hardened request layer compatible with mandatory multi-layered server-side IP whitelisting.
+## 📑 Table of Contents
+1. [Key Features](#-key-features)
+2. [System Requirements](#-system-requirements)
+3. [Installation](#-installation)
+4. [Quick Start Guide](#-quick-start-guide)
+   - [1. Backend (PHP): Create an Invoice](#1-backend-php-create-an-invoice)
+   - [2. Frontend (JavaScript): Automated Status Polling](#2-frontend-javascript-automated-status-polling)
+5. [Repository Structure](#-repository-structure)
+6. [Security & IP Whitelisting](#-security--ip-whitelisting)
+7. [License & Support](#-license--support)
 
 ---
 
-## Prerequisites
-Before rolling out production implementations, verify your infrastructure meets the following baseline thresholds:
-- **PHP Environment:** Version 7.4 or higher.
-- **PHP Extensions:** `curl` (Client URL Library) and `json` extensions must be compiled and active.
-- **Network Permissions:** Your server must have outbound SSL routing enabled to query `https://pay.ezidcode.com`.
+## ✨ Key Features
+* **Lightweight & Framework-Agnostic:** Written in pure Native PHP and vanilla ES6 JavaScript. Highly compatible with custom applications, WordPress, Laravel, CodeIgniter, Symfony, or raw HTML.
+* **Real-Time Payment Detection:** Features a client-side asynchronous polling engine (JS SDK) to instantly detect blockchain transaction completions without hard page refreshes.
+* **Multi-Currency Support (Fiat Conversion):** Generate invoices in your local fiat currency (e.g., USD, IDR), and the API will automatically calculate the exact Crypto equivalent (USDT, BTC, etc.) required for payment.
+* **Enterprise-Grade Security:** Built with a hardened request layer that integrates mandatory server-side IP Whitelisting to prevent unauthorized API exploitation.
 
 ---
 
-## Repository Structure
-Maintain the following file distribution pattern inside your web asset directories:
+## ⚙️ System Requirements
+Ensure your server or hosting environment meets the following baseline thresholds before deploying to production:
+* **PHP Environment:** Version 7.4 or higher (PHP 8.x recommended).
+* **PHP Extensions:** `curl` (Client URL Library) and `json` extensions must be enabled.
+* **Network Access:** Your server must allow outbound SSL routing to query the `https://pay.ezidcode.com` API.
+
+---
+
+## 🚀 Installation
+
+Since this is a standalone SDK, you can simply clone this repository or download the `src/` directory directly into your web application's asset folders.
+
+```bash
+# Clone the repository via Git
+git clone [https://github.com/ezidcode/ezidcode-pay-php.git](https://github.com/ezidcode/ezidcode-pay-php.git)
+
+```
+
+Alternatively, you can download the `.zip` format directly from this GitHub page and extract it into your project root.
+
+---
+
+## 📖 Quick Start Guide
+
+Here is the fastest way to start accepting crypto payments using the Ezidcode Pay SDK.
+
+### 1. Backend (PHP): Create an Invoice
+
+Use the `EzidcodePay.php` handler on your server to communicate with the Gateway system.
+
+```php
+<?php
+// Load the Ezidcode PHP SDK
+require_once 'src/EzidcodePay.php';
+use EzidcodePay\EzidcodePay;
+
+// 1. Initialize the API (Insert the Public Key from your Merchant Dashboard)
+$public_key = 'PUB_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'; 
+$ezidcode = new EzidcodePay($public_key);
+
+// 2. Create an Invoice (e.g., A $25.50 USD order)
+$order_id = 'INV-' . time(); // Replace with the actual Order ID from your database
+$response = $ezidcode->createInvoice($order_id, 25.50, 'USD');
+
+if ($response['status'] === 'success') {
+    $invoice = $response['data'];
+    // Proceed to render $invoice['qr_code'] and $invoice['pay_address'] to the customer
+} else {
+    die("An error occurred: " . $response['message']);
+}
+?>
+
+```
+
+### 2. Frontend (JavaScript): Automated Status Polling
+
+Use the `ezidcode-pay.js` script on your checkout page to automatically verify if the buyer has successfully transferred the crypto to the destination wallet.
+
+```html
+<script src="src/ezidcode-pay.js"></script>
+
+<h3 id="payment-status" style="color: orange;">⏳ Awaiting Blockchain Confirmation...</h3>
+
+<script>
+    // Fetch the TX ID generated by the PHP SDK in the previous step
+    const txId = "TX-1234567890"; 
+
+    // Call the listen() function for real-time transaction detection (polls every 10 seconds)
+    EzidcodePayJS.listen(
+        txId, 
+        function(successData) {
+            // Automatically executed when the payment is confirmed on the blockchain
+            const statusEl = document.getElementById('payment-status');
+            statusEl.innerHTML = "✅ PAYMENT SUCCESSFUL!";
+            statusEl.style.color = "green";
+            
+            // Example: Redirect the buyer to a success/receipt page
+            // window.location.href = "success.php";
+        }, 
+        function(failedData) {
+            // Automatically executed if the payment fails or the invoice expires
+            const statusEl = document.getElementById('payment-status');
+            statusEl.innerHTML = "❌ PAYMENT TIMEOUT (EXPIRED)";
+            statusEl.style.color = "red";
+        }
+    );
+</script>
+
+```
+
+*Note: You can view a complete UI integration example inside the `examples/checkout.php` file.*
+
+---
+
+## 📁 Repository Structure
+
+Maintain the following file distribution pattern inside your web application directories:
 
 ```text
-ezidcode-pay-sdk/
+ezidcode-pay-php/
 │
 ├── src/
-│   ├── EzidcodePay.php        # Core Backend Class Handler (PHP Namespace Framework)
-│   └── ezidcode-pay.js        # Asynchronous Frontend Polling Engine (JavaScript ES6)
+│   ├── EzidcodePay.php        # Core Backend Class Handler (PHP SDK)
+│   └── ezidcode-pay.js        # Asynchronous Frontend Polling Engine (JS SDK)
 │
 ├── examples/
-│   ├── create-payment.php     # Server-side API payload execution mock up
-│   ├── checkout-view.php      # Frontend UI invoice rendering layout
-│   └── webhook-listener.php   # Asynchronous blockchain validation controller
+│   └── checkout.php           # Complete web checkout UI integration example
 │
-└── README.md                  # System Documentation Ledger
+└── README.md                  # Official System Documentation (This File)
+
+```
+
+---
+
+## 🔒 Security & IP Whitelisting
+
+**CRITICAL NOTICE:** Ezidcode Pay enforces a strict IP-based security protocol.
+Requests to generate invoices (`createInvoice()`) **will only be processed** if your hosting server's IP address has been explicitly whitelisted.
+
+**How to Fix the `Unauthorized IP Address` Error:**
+
+1. Log in to your Merchant Dashboard at `https://pay.ezidcode.com`.
+2. Navigate to **Settings > API Keys & Payout**.
+3. In the **Server IP Address (Whitelist)** field, enter the public IP address of your web server (e.g., `192.168.1.1`).
+4. Save your settings. Requests originating from any non-registered IPs will be automatically blocked by the system.
+
+---
+
+## 📄 License & Support
+
+This repository is officially licensed under the [MIT License](https://opensource.org/licenses/MIT). You are granted full freedom to use, modify, and distribute it for both commercial and personal projects without restrictions.
+
+If you discover a bug, face integration challenges, or require technical assistance, please contact our operational support team at **admin@ezidcode.com** or open a **New Issue** in this repository's GitHub tab.
+
+```
+
+```
