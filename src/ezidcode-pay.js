@@ -1,15 +1,15 @@
 /**
  * Ezidcode Pay - Frontend Helper
- * Script ini membantu developer mengecek status pembayaran secara otomatis
+ * This script helps developers automatically check the payment status.
  */
 
 class EzidcodePayJS {
     /**
-     * Mulai mengecek status transaksi setiap X detik
-     * * @param {string} txId Transaction ID dari Ezidcode Pay
-     * @param {function} onSuccess Callback jika pembayaran berhasil
-     * @param {function} onFailed Callback jika pembayaran gagal/expired
-     * @param {number} interval Interval pengecekan dalam milidetik (Default: 10000ms / 10 detik)
+     * Start checking transaction status every X seconds
+     * @param {string} txId Transaction ID from Ezidcode Pay
+     * @param {function} onSuccess Callback if payment is successful
+     * @param {function} onFailed Callback if payment fails/expires
+     * @param {number} interval Polling interval in milliseconds (Default: 10000ms / 10 seconds)
      */
     static listen(txId, onSuccess, onFailed, interval = 10000) {
     // Tambahkan fungsi encodeURIComponent
