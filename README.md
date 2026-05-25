@@ -1,7 +1,3 @@
-My apologies for the oversight! You are absolutely right—GitHub repositories generally reach a much wider audience when documented in English.
-
-Here is the raw, SEO-optimized English Markdown content for your `README.md`. You can copy everything inside the block below and paste it directly into your GitHub file:
-
 ```markdown
 # Ezidcode Pay - Native PHP & JavaScript SDK (Crypto Payment Gateway)
 
